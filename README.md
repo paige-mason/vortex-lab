@@ -1,6 +1,6 @@
 # bcog200-final-project
 
-The purpose of this program is to simulate a tornadic event based on historical data.
+The purpose of this program is to simulate a tornadic event based on historical data. It is intended for entertainment only and is not a tool for predicting real meteorological outcomes.
 
 **Functions**
 
@@ -18,6 +18,7 @@ The purpose of this program is to simulate a tornadic event based on historical 
 
  <ins>Load and Filter Tornado Data</ins>
  - load data from CSV, sourced from NOAA records
+   - data is listed in strings and integers
  - return tornadoes matching state and month inputs
  - adjust Enhanced Fujita (EF) Scale rating probability based on inputs
  - if tornado is unlikely based on inputs, print "low chance of tornado formation"
