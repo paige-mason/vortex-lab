@@ -1,4 +1,4 @@
-# bcog200-final-project
+# vortex-lab
 
 The purpose of this program is to simulate a tornadic event based on historical data. It is intended for entertainment only and is not a tool for predicting real meteorological outcomes.
 
