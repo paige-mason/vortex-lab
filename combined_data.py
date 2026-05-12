@@ -9,7 +9,6 @@ for file in files:
     df = pd.read_csv(file)
 
     tornadoes = df[df["EVENT_TYPE"] == "Tornado"]
-    all_tornadoes.append(tornadoes)
     
     tornadoes = tornadoes[[
         "STATE",
@@ -20,6 +19,9 @@ for file in files:
         "DEATHS_DIRECT",
         "CZ_NAME"
     ]]
+
+    tornadoes["STATE"] = tornadoes["STATE"].str.title()
+    all_tornadoes.append(tornadoes)
+
 combined = pd.concat(all_tornadoes)
-combined["STATE"] = combined["STATE"].str.title()
 combined.to_csv("/Users/paigemason/Desktop/bcog200/vortex-lab/data/tornado_data.csv", index=False)
