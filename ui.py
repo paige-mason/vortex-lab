@@ -235,6 +235,3 @@ def generate_new(window):
 def return_to_menu(window):
     window.destroy()
     title_screen()
-
-# have not pushed to github
-
