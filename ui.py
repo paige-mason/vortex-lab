@@ -128,7 +128,7 @@ def run_simulation(user_inputs):
 def get_user_inputs():
     root = tk.Tk()
 
-    root.title("Sim Parameters")
+    root.title("Simulation Inputs")
     root.geometry("500x400")
 
     state_var = tk.StringVar()
