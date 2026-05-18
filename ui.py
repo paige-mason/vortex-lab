@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from data import (load_and_filter_data, generate_tornado_event)
+from animation import run_animation
 
 STATES = [
     "Alabama", 
@@ -111,7 +113,17 @@ def start_program(root):
     root.destroy()
 
     user_inputs = get_user_inputs()
-    print(user_inputs)
+    run_simulation(user_inputs)
+    
+
+def run_simulation(user_inputs):
+    filtered_data = load_and_filter_data("/Users/paigemason/Desktop/bcog200/vortex-lab/data/tornado_data.csv", user_inputs["state"], user_inputs["month"])
+    event = generate_tornado_event(filtered_data, user_inputs["temperature"], user_inputs["humidity"])
+    if event is None:
+        print("Tornado formation unlikely for selected conditions.")
+    else:
+        run_animation(event)
+        display_report(event)
 
 def get_user_inputs():
     root = tk.Tk()
@@ -146,7 +158,7 @@ def get_user_inputs():
     month_dropdown = ttk.Combobox(
         root,
         textvariable=month_var,
-        values=list(MONTHS.keys()),
+        values=MONTHS,
         state="readonly"
     )
 
@@ -166,36 +178,63 @@ def get_user_inputs():
     humidity_entry = tk.Entry(root, textvariable=humidity_var)
     humidity_entry.pack()
 
+    error_label = tk.Label(root, text="", fg="red")
+    error_label.pack()
+
     def submit_inputs():
         try:
             temperature = int(temp_var.get())
             humidity = int(humidity_var.get())
 
             user_inputs["state"] = state_var.get()
-            user_inputs["month"] = MONTHS[month_var.get()]
+            user_inputs["month"] = month_var.get()
             user_inputs["temperature"] = temperature
             user_inputs["humidity"] = humidity
 
             root.destroy()
         except ValueError:
-            error_label.config(
-                text="Temperature and humidity inputs must be numbers."
-            )
-
-        generate_button = tk.Button(
-            root,
-            text="Generate Tornado Event",
-            command=submit_inputs
-        )
+            error_label.config(text=("Temperature and humidity must be numbers."))
+        except Exception as e:
+            print(e)
+            error_label.config(text="Unexpected error.")
+    generate_button = tk.Button(
+        root, text="Generate Tornado Event", command=submit_inputs
+    )
+    generate_button.pack(pady=20)
+    root.mainloop()
+    return user_inputs
     
-        generate_button.pack(pady=20)
+def display_report(event):
+    report_window = tk.Toplevel()
+    report_window.title("Tornado Report")
+    report_window.geometry("500x500")
+    title_label = tk.Label(report_window, text="TORNADO REPORT", font=("Arial", 18, "bold"))
+    title_label.pack(pady=20)
+    report_text = f'''
+State: {event["state"]}
+County: {event["county"]}
+Date: {event["month"]} {event["day"]}
+EF Rating: EF{event["ef_rating"]}
+Estimated Wind Speed: {event["wind_speed"]} mph
+Path Width: {event["path_width"]} yards
+Path Length: {event["path_length"]} miles
+Fatalities: {event["fatalities"]}'''
+    report_label = tk.Label(report_window, text=report_text, justify="left", font=("Arial", 12))
+    report_label.pack(pady=20)
 
-        error_label = tk.Label(
-            root,
-            text="",
-            fg="red"
-        )
+    new_button = tk.Button(report_window, text="Generate New Tornado", command=lambda: generate_new(report_window))
+    new_button.pack(pady=10)
 
-        error_label.pack()
-        root.mainloop()
-        return user_inputs
+    menu_button = tk.Button(report_window, text="Return to Main Menu", command=lambda: return_to_menu(report_window))
+    menu_button.pack(pady=10)
+
+def generate_new(window):
+    window.destroy()
+    title_screen()
+
+def return_to_menu(window):
+    window.destroy()
+    title_screen()
+
+# have not pushed to github
+
