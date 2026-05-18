@@ -117,7 +117,7 @@ def start_program(root):
     
 
 def run_simulation(user_inputs):
-    filtered_data = load_and_filter_data("/Users/paigemason/Desktop/bcog200/vortex-lab/data/tornado_data.csv", user_inputs["state"], user_inputs["month"])
+    filtered_data = load_and_filter_data("data/tornado_data.csv", user_inputs["state"], user_inputs["month"])
     event = generate_tornado_event(filtered_data, user_inputs["temperature"], user_inputs["humidity"])
     if event is None:
         print("Tornado formation unlikely for selected conditions.")
