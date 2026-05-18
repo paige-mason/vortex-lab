@@ -1,7 +1,7 @@
 import pandas as pd
 import glob
 
-files = glob.glob("/Users/paigemason/Desktop/bcog200/vortex-lab/data/raw/*.csv")
+files = glob.glob("data/raw/*.csv")
 
 all_tornadoes = []
 
@@ -23,5 +23,5 @@ for file in files:
     tornadoes["STATE"] = tornadoes["STATE"].str.title()
     all_tornadoes.append(tornadoes)
 
-combined = pd.concat(all_tornadoes)
-combined.to_csv("/Users/paigemason/Desktop/bcog200/vortex-lab/data/tornado_data.csv", index=False)
+combined = pd.concat(all_tornadoes) 
+combined.to_csv("data/tornado_data.csv", index=False)
